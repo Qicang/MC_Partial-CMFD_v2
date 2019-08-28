@@ -1,0 +1,285 @@
+\documentclass[xcolor=dvipsnames,aspectratio=169]{beamer}
+\usepackage{tabls}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage{appendixnumberbeamer} %I think this makes it so that appendices don't count toward total pages
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{amsbsy} %For better bolding
+\usepackage{bbold}
+%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  Ben's customizations below
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{ulem}
+
+%Custom packages
+\usepackage{nth} %Format dates
+\usepackage{resizegather} % Automatically resize equations in gather to fit page
+\usepackage{hyperref} % Better links
+\usepackage[export]{adjustbox} %right/left-aligned figures
+\usepackage[style=footnote-dw]{biblatex} %Footnote citations within slide
+\usepackage{subcaption} %Subfigures
+\usepackage{booktabs} % \toprule, \midrule, \bottomrule in tables
+\usepackage[english]{babel} %I forgot why I have this
+\usepackage{amsfonts} %I forgot why I have this
+%\addbibresource{bibliography.bib}
+\usepackage{physics}
+\newcommand\redout{\bgroup\markoverwith
+{\textcolor{red}{\rule[0.5ex]{2pt}{2pt}}}\ULon}
+\renewcommand<>{\redout}[1]{
+  \only#2{\beameroriginal{\redout}{#1}}
+  \invisible#2{#1}
+}
+\bibliography{bibliography}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+%I don't remember why I had this... I think it makes itemize look the way I wanted
+\newlength{\wideitemsep}
+\setlength{\wideitemsep}{8pt}
+\let\olditem\item
+\renewcommand{\item}{\setlength{\itemsep}{\wideitemsep}\olditem}
+\usepackage{algorithm,algorithmic}
+%Shortcuts to Greek letters:
+\newcommand{\eps}{\epsilon}
+\newcommand{\veps}{\varepsilon}
+\newcommand{\g}{\gamma}
+\newcommand{\w}{\omega}
+\newcommand{\W}{\Omega}
+\newcommand{\z}{\zeta}
+% Vector symbols:
+\newcommand{\bW}{\boldsymbol{\hat{\Omega}}}
+\newcommand{\bWp}{\boldsymbol{\hat{\Omega}'}}
+\newcommand{\br}{\boldsymbol{r}}
+\newcommand{\bphi}{\pmb{\phi}}
+
+%I'm lazy and don't want to type these out:
+\renewcommand{\l}{\left}  %This one in particular might interfere with things, so be careful
+\renewcommand{\r}{\right}
+\newcommand{\la}{\left\langle}
+\newcommand{\ra}{\right\rangle}
+
+% Useful shortcut for referring to equations:
+\newcommand{\refeqn}[1]{Equation~\eqref{eqn:#1}}
+\newcommand{\refeqns}[1]{Equations~\eqref{eqns:#1}}
+% The tilde prevents line breaks between the word "Equation(s)" and the eq. #
+
+%Reduce spacing before+after equations:
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength\abovedisplayshortskip{0pt}
+\setlength\belowdisplayshortskip{0pt}
+
+% More shortcuts because I'm lazy:
+\newcommand{\dx}{\Delta x}
+\newcommand{\dy}{\Delta y}
+\newcommand{\dz}{\Delta z}
+\newcommand{\sumg}{\sum\limits_{g=1}^G}
+\newcommand{\sumgp}{\sum\limits_{g'=1}^G}
+\newcommand{\sumgpp}{\sum\limits_{g''=1}^G}
+\newcommand{\half}{\frac{1}{2}}
+    
+%Underline:
+\newcommand{\und}{\underline}
+%Tilde:
+\newcommand{\wt}{\widetilde}
+%Silly hack to get the overline to be a little bit higher:
+\newcommand{\ol}[1]{\overline{\vphantom{f^{{o}_f}}#1}}
+\newcommand{\olf}[1]{\overline{\vphantom{f^{i}}#1}}
+
+%Colored text shortcuts:
+\newcommand{\colg}[1]{{\color{ForestGreen} #1}}
+\newcommand{\colb}[1]{{\color{blue} #1}}
+\newcommand{\colr}[1]{{\color{red} #1}}
+\newcommand{\colo}[1]{{\color{orange} #1}}
+\newcommand{\colcy}[1]{{\color{cyan} #1}}
+
+\newcommand{\bBr}[1]{\Big[ #1 \Big]}
+\newcommand{\bSr}[1]{\Big( #1 \Big)}
+\newcommand{\blr}[1]{\Big| #1 \Big|}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% More customizations (these are more beamer-specific)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%This theme is nice because it has navigation circles and looks nice:
+\usetheme{Frankfurt}
+\usecolortheme[RGB={0,0,153}]{structure}
+
+%Make sure the footnote doesn't collide with the navigation symbols on the bottom of the slide:
+% \addtobeamertemplate{footnote}{}{\vspace{5ex}}
+%This hack doesn't work if you have more than one footnote... so in that case, you'll have to do something else
+
+\addtobeamertemplate{footnote}{\vspace{-6pt}\advance\hsize-0.5cm}{\vspace{8pt}}
+\makeatletter
+% Alternative A: footnote rule
+\renewcommand*{\footnoterule}{\kern -3pt \hrule \@width 2in \kern 8.6pt}
+% Alternative B: no footnote rule
+% \renewcommand*{\footnoterule}{\kern 6pt}
+\makeatother
+
+
+%Text margins:
+\setbeamersize{text margin left=1em,text margin right=1em}
+
+%Font sizes in titles:
+\setbeamerfont{frametitle}{size=\large}
+\setbeamerfont{normal font}{size=\tiny}
+
+%I think this is the UM logo on the bottom left of every slide?
+\pgfdeclareimage[height=0.15in]{UMlogo}{michigan_engineering2.png}
+\usepackage{eso-pic}
+\newcommand\AtPagemyUpperLeft[1]{\AtPageLowerLeft{%
+\put(\LenToUnit{0.01\paperwidth},\LenToUnit{0.01\paperwidth}){#1}}}
+\AddToShipoutPictureFG{
+  \AtPagemyUpperLeft{{\pgfuseimage{UMlogo}}}
+}%
+
+% Logo for title page:
+\titlegraphic{\includegraphics[height=0.2\textheight]{michigan_block_m.png}}
+
+\setbeamerfont{footnote}{size=\fontsize{2pt}{0pt}\selectfont}
+\addtobeamertemplate{footnote}{\vspace{-1pt}\advance\hsize-0.1cm}{\vspace{1pt}}
+
+% Frame numbers (and navigation symbols?):
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+
+%%%% Commands to turn navigation circles on/off:
+\makeatletter
+\let\beamer@writeslidentry@miniframeson=\beamer@writeslidentry
+\def\beamer@writeslidentry@miniframesoff{%
+  \expandafter\beamer@ifempty\expandafter{\beamer@framestartpage}{}% does not happen normally
+  {%else
+    % removed \addtocontents commands
+    \clearpage\beamer@notesactions%
+  }
+}
+\newcommand*{\miniframeson}{\let\beamer@writeslidentry=\beamer@writeslidentry@miniframeson}
+\newcommand*{\miniframesoff}{\let\beamer@writeslidentry=\beamer@writeslidentry@miniframesoff}
+\makeatother
+
+\setbeamerfont{section in toc}{size=\normalsize}
+\setbeamerfont{subsection in toc}{size=\small}
+
+%%%% Define an environment with the margin style I want for outline slides
+\newenvironment{chg}{%
+   \begin{list}{}{%
+      \setlength{\leftmargin}{1cm}%
+   }%
+\item[]}{\end{list}}
+
+%Outline page at beginning of each section:
+\AtBeginSection[]
+{
+    \begin{frame}<beamer>[noframenumbering] %disable increment of frame number
+    \vfill
+    \begin{chg}
+    \begin{minipage}[c][4cm]{0.8\textwidth}
+        \tableofcontents[currentsection]
+    \end{minipage}
+    \end{chg}
+    \vfill
+    \end{frame}
+}
+
+%Outline page at beginning of each subsection, other subsections greyed out:
+\AtBeginSubsection[]
+{
+    \miniframesoff % in this miniframesoff environment, we don't get navigation circles for subsection outline slides
+    \begin{frame}<beamer>[noframenumbering]
+    \vfill
+    \begin{chg}
+    \begin{minipage}[c][4cm]{0.8\textwidth}
+        \tableofcontents[sectionstyle=show/shaded, currentsubsection]
+    \end{minipage}
+    \end{chg}
+    \vfill
+    \end{frame}
+    \miniframeson
+}
+
+\usepackage{tikz} %For drawing stuff
+\usetikzlibrary{calc} %Coordinate calculations
+\tikzset{mystyle/.style={shape=circle,fill=black,scale=0.3}}
+\usetikzlibrary{arrows.meta} %For the arrows below:
+\tikzset{edge/.style = {->,-{Latex[width=2mm]}}} %nice arrows
+\newcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node (#1) {};}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%ZZZZ check for periods
+
+%Title info:
+\title{Relationship Between Relaxation and Partial Convergence of Nonlinear Diffusion  Acceleration for Problems with Feedback}
+\institute[shortinst]{ Department of Nuclear Engineering and Radiological Sciences \\ University of Michigan}
+\author{Qicang Shen, Nickolas Adamowicz,  Brendan Kochunas}
+\date{ August \nth{28}, 2019}
+
+\begin{document}
+
+%Title page:
+\begin{frame}
+    \titlepage
+\end{frame}
+
+%Initial outline:
+\begin{frame}
+\frametitle{Outline}
+\begin{minipage}{0.061\linewidth}
+\hfill                      
+\end{minipage}
+\begin{minipage}[c][4cm]{0.8\textwidth}
+\tableofcontents[
+hideothersubsections,
+sectionstyle=show,
+subsectionstyle=show
+]
+\end{minipage}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{Texfile/Motivate_Background.tex}
+\input{Texfile/Fourier_Analysis.tex}
+\input{Texfile/Analysis_Result.tex}
+\input{Texfile/Conclusions.tex}
+\input{Texfile/Awknowledgement.tex}
+\end{document}

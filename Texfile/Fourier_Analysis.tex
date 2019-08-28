@@ -1,0 +1,74 @@
+\section{Fourier Analysis}
+\subsection{Analysis Overview}
+\begin{frame}
+	\frametitle{Fourier analysis is a technique that estimates the convergence properties of a method by looking at how error modes decay in a model problem*}
+	\begin{itemize}
+		\item Procedure for Fourier analysis:
+		\begin{itemize}
+		    \item Define 1-D homogeneous problem with reflective boundary conditions
+			\item Define a ``Fourier ansatz'' consisting of equations of the form
+				\begin{equation}
+					\phi^{(l)}(x) = \phi_{0} + \epsilon\sum_{\omega_j} \theta(\w)^l  e^{i \w_j x} \,,
+				\end{equation}
+        		where $\phi_{0}$ is the exact solution and the second term is a ``small'' error of frequency $\w_j$
+			\item Substitute temporary solutions of the equations  which define your method by Fourier ansatz , drop terms of $O(\eps^2)$ or smaller, and perform some algebra to obtain an eigenvalue problem for the decay rate $\theta(\w)$
+			\item The spectral radius of the method is then given by $\rho = \max\limits_{\w_j}|\theta|$, $\rho<1$ -- the scheme is stable.
+		\end{itemize}%
+	\end{itemize}
+\end{frame}
+\subsection{Model Problem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Model Specification}
+\begin{itemize}
+\item Cross section is assumed to be linearly dependent with the localized flux~\footfullcite{kastenberg1969stability}:
+\begin{equation}
+\Sigma_{i}^{\left(n\right)}\left(x\right) = \Sigma_{i,0} + \Sigma_{i,1} \left(\phi^{\left( n\right)}\left(x\right) - \Phi_0 \right)\label{eqn:updatexs}
+\end{equation}
+\vspace{-1em}
+\begin{itemize}
+    \item In general the relation between cross section and the flux is not this simple. However, when the solution is close to the true solution, this approximation is reasonable.
+    \vspace{-0.5em}
+    \item Former research~\footfullcite{Kochunas2017FourierSections} shows this assumption can make Fourier analysis tractable and reveal the stability of the Picard scheme in neutron transport calculation with feedback. 
+    \item A proxy multiphysics application which maintains some representative behavior while allowing for a spatially flat solution
+\end{itemize}
+
+\end{itemize}
+\vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Model Iteration Scheme}
+
+\begin{algorithm}[H]
+\begin{algorithmic}[1]
+\STATE{Initialize $\phi(x)$ and $J(x)$}
+\FOR{$n=0$ to $N$}
+\vspace{-0.2em}
+\STATE{Update the Cross Section by \refeqn{updatexs}}
+\vspace{-0.5em}
+\STATE{Calculate the CMFD coefficients and nonlinear coupling term $\hat{D}$}
+\vspace{-0.5em}
+\STATE{Use the CMFD coefficients to form $M$ and $F$}
+\vspace{-0.5em}
+\FOR{$l=0$ to $L$}
+\vspace{-0.2em}
+\STATE{Solve $\l[ M - \lambda_sF \r] \bphi^{(l+1)} = \l[ \lambda^{(l)} - \lambda_s \r] F  \bphi^{(l)}$}
+\vspace{-0.5em}
+\ENDFOR
+\vspace{-0.5em}
+\STATE{Update the source of transport equation with coarse mesh solutions}
+\vspace{-0.5em}
+\STATE{Perform transport sweep}
+\vspace{-0.5em}
+\ENDFOR
+\end{algorithmic}
+\caption{Model Iteration Scheme}
+\label{alg:seq}
+\end{algorithm}
+\end{frame}    
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %ZZZZ emphasize importance of this analysis
+
+
